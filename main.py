@@ -1,19 +1,17 @@
 from fastapi import FastAPI
 from utils.crawler import BooksCrawler
-app = FastAPI()
+from models.Book import Book
+from utils.db import lifespan
 
-users = [{"id": 1, "name": "John Doe"}, {"id": 2, "name": "Jane Smith"}]
 crawler = BooksCrawler()
+
+app = FastAPI(lifespan=lifespan)
 
 @app.get("/")
 async def read_root():
-    return crawler.crawl_books()
-
-@app.get("/user")
-async def getUser(index: int):
-    if 0 <= index < len(users):
-        return users[index]
-    return {"error": "User not found"}
+    books = crawler.crawl_books()
+    await Book.insert_many(books["books"])  # Save the crawled books to the database 
+    return {"message": "Welcome to the Books API", "books": books}
 
 # Books
 @app.get("/books")
@@ -27,7 +25,7 @@ async def get_books(
     pass
 
 @app.get("/books/{book_id}")
-async def get_book_by_id(book_id: int):
+async def get_book_by_id(book_id: str):
     # Implementation for fetching a book by its ID
     pass
 
