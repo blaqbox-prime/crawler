@@ -1,12 +1,13 @@
 from fastapi import FastAPI
-
+from utils.crawler import BooksCrawler
 app = FastAPI()
 
 users = [{"id": 1, "name": "John Doe"}, {"id": 2, "name": "Jane Smith"}]
+crawler = BooksCrawler()
 
 @app.get("/")
 async def read_root():
-    return {"message": "Hello, World!"}
+    return crawler.crawl_books()
 
 @app.get("/user")
 async def getUser(index: int):
