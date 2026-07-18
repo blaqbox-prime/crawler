@@ -1,6 +1,6 @@
 import httpx
 from bs4 import BeautifulSoup
-from models.book import Book, Metadata
+from models.Book import Book, Metadata
 from datetime import datetime
 
 
