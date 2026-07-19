@@ -14,4 +14,12 @@
 - Once this workflow is successful We then refactor by breaking down the crawl method into smaller methods. 
   - `scrape_book` to isolate the logic of scraping a single book
   - For pagination I move the logic for fetching a single page into its own method which will take a page number as an input. We will also handle error for fetching a page number higher than the actual available pages
-  - 
+  - once Ive ensured the crawler is able to fetch pages and parse them successfully, I convert the synchronous `httpx.get` to instead use `httpx.AsyncClient` 
+
+### Mongo DB Setup
+- I had to look up what options i have for ORM / ODM, preferrably use one of those instead of a driver and writing raw queries. Unless the application grows to require complex queries that need me to write a direct query, an ODM will be more than enough for what where we are right now. So i picked Beanie among other options like MongoEngine, because its asynchronous and looks familiar to Mongoose which I have used for jS projects. 
+- Beanie using Pydantic is also a plus so I just replaced the `BaseModel` parent class of `Book` with `Document` which is a subclass of `BaseModel` so it does all the same stuff but also add some features of the ODM so now book looks like `class Book(Document)`
+- Added the setup in the main.py as `def lifespan():` with the `@asynccontextmanager` decorator to allow for a single instance of the async mongodb client to be created when the server starts and closes when the server stops. This way we have a single client throughout 
+
+### logging 
+I added a logger utility file to be able to log any exceptions raised while scraping and parsing the pages.  The error will be logged to a log file in the `./logs` folder

@@ -3,9 +3,10 @@ from pydantic import BaseModel, Field
 from uuid import uuid4
 from datetime import datetime, date
 from beanie import Document, Indexed
+import pymongo
 
 class Book(Document):
-    id: str | None = None 
+    id: str
     title: str
     description: str
     category: Indexed(str)
@@ -16,6 +17,9 @@ class Book(Document):
     rating: Indexed(float) = Field(..., ge=0, le=5)
     metadata: Metadata | None = None
     
+        
+    
+class Metadata(BaseModel):
     crawl_timestamp: datetime
     status: str
     source_url: str

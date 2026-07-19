@@ -8,8 +8,14 @@ from models.Book import Book
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     client = AsyncMongoClient("mongodb://localhost:27017")
-    await init_beanie(
-        database=client["filekeepers"],
-        document_models=[Book],
-    )
-    yield
+    try:
+        await init_beanie(database=client["filekeepers"], document_models=[Book])
+        yield
+    except Exception as e:
+        print(f"Error during database initialization: {e}")
+    finally:
+        await client.close()
+        
+async def fetchBooks():
+    return await Book.find_all().to_list()
+    
