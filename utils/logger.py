@@ -23,16 +23,10 @@ def log_book_event(message: str, level: str = "info") -> None:
     getattr(logger, level.lower(), logger.info)(message)
 
 
-def log_scrape_start(book_url: str) -> None:
-    log_book_event(f"Starting scrape for URL: {book_url}")
-
-
-def log_extraction_step(step: str, value: str | None = None) -> None:
-    if value is None:
-        log_book_event(f"Extraction step: {step}")
-    else:
-        log_book_event(f"Extraction step: {step} -> {value}")
-
-
 def log_scrape_error(book_url: str, error: Exception) -> None:
     log_book_event(f"Error scraping {book_url}: {error}", level="error")
+
+
+def get_logger(name: str) -> logging.Logger:
+    _configure_root_logger()
+    return logging.getLogger(name)

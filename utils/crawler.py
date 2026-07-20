@@ -12,10 +12,10 @@ class BooksCrawler:
         self.client = httpx.AsyncClient()
         self.base_url = get_settings().crawl_base_url
 
-    async def crawl_books(self, page_number: int = 1):
+    async def crawl_books(self, page_number: int = -1):
         all_books: list[Book] = []
-        # max_pages = await self.get_page_count()
-        max_pages = 10
+        max_pages = await self.get_page_count()
+        # max_pages = 10
         
         # if page_number == -1 scrape all books  
         if page_number == -1:

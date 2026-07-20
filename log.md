@@ -1,4 +1,4 @@
-## The Process:
+# The Process:
 ### Initial Setup
 - I started by setup up the project with a virtual environment and installing some dependencies I figure will be necessary as per the brief document:
   - FastAPI
@@ -45,5 +45,20 @@ if sort_by:
 ### API Keys Setups
 - For this I have in mind a fairly simple solution, I will create a collection for api keys in our database where we will store the hashed version of the api key and the user will keep the original. Everytime a request comes in we will make a query for that api key. To make this a little more flexible we will store a `creation` and `expiration date`, an `is active` and a `client_id` which would obviously link to the client record that the api key is assigned to.     
 
+### Scheduler
+- I have decided to go with APScheduler for scheduling tasks. Again doing a bit of research and reading up on how it works exactly. I want to just have a task that will run every hour (maybe make this adjustable in the .env) and the task will just call the crawl endpoint and have that run in the background. 
+
 ## Struggles I have faced.
 - getting to know the python ecosystem has proven to be a challenge, I just didn't have the time to delve deep into a lot of things and so I am constantly researching what tools do I need to achieve a particular outcome like rate limiting or scheduling and the like. I am trying not to lean on A.I tools outside of researching and comparing libraries and getting a quick start guide and cheatsheet for something I feel i can use. I guess with a little more time I could get much more done but I did have my current full-time job sucking up much of my time. Its been really fun working on this though. Learned a whole lot about building with python. I actually found a lot of similarities with how express apps would be built in Javascript. 
+  
+- I have unfortunately run out of time. Not that the time allocated wasn't enough but I was not able to use the first 2 days or so at all because of some urgent work i needed to get done. 
+
+### What's missing
+  - The crawl method that scans the pages needs to be adjusted to accomodate **checkpoints**, this would allow a user to be able to "save" after every page before moving to the next page so that should the connection be disrupted or an error occur, we can grab the latest checkpoint entry in the database and if it is marked as incomplete we can extract the last page and last book that was scraped and basically use that as the starting point effectively resuming where we left off and not having to start the scraping from scratch again.
+  - **Alerting** has also not been implemented yet, I figured its something like nodemailer for js, I just didn't get time to look into it but I would have had a similar approach, with the SMTP connection and credentials details in the `.env` file and have them loaded to initiate a client and be able to send the generated reports using that. 
+  - **Detecting newly inserted books or updates**. This I think I skipped over when I made the crawler initially because I still didn't have any idea how I was going to implement that. So in the interest of not spending too much of the little time I had, I continued to build all the other stuff and was going to come back around to it. This and the `chekpoints` feature were by far my biggest obstacle in that it would take me some time to come up with my own solution. I would have ended up getting an AI solution and tweaking it to fit my needs just so I am more productive.       
+- **Tests**. I was saving tests for later as I keep refactoring as I go in order to make my functions smaller and more atomic and modular. So I just didn't get around to it. 
+
+## Final Remarks.
+I greatly appreciate the opportunity, This little project has really taught me quite a few things, especially with python having not been a big part of my journey as a developer, it has been fun trying to build this.  
+Hope you have a good one. 

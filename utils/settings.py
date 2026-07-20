@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     api_page_size_default: int = Field(default=20)
     api_page_size_max: int = Field(default=100)
 
+    # Scheduler
+    schedule_cron_hour: int = Field(default=2)
+    schedule_cron_minute: int = Field(default=0)
     
     @property
     def api_key_set(self) -> List[str]:
