@@ -98,10 +98,8 @@ class BooksCrawler:
                     title=title,
                     description=description,
                     category=category,
-                    prices={
-                        "excluding_tax": price_excluding_tax,
-                        "including_tax": price_including_tax
-                    },
+                    price_excluding_tax=price_excluding_tax,
+                    price_including_tax=price_including_tax,
                     availability=availability,
                     number_of_reviews=number_of_reviews,
                     cover_image_url=cover_image_url,

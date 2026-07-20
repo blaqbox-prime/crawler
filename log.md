@@ -23,3 +23,6 @@
 
 ### logging 
 I added a logger utility file to be able to log any exceptions raised while scraping and parsing the pages.  The error will be logged to a log file in the `./logs` folder
+
+## Struggles I have faced.
+- getting to know the python ecosystem has proven to be a challenge, I just didn't have the time to delve deep into a lot of things and so I am constantly researching what tools do I need to achieve a particular outcome like rate limiting or scheduling and the like. I am trying not to lean on A.I tools outside of researching and comparing libraries and getting a quick start guide and cheatsheet for something I feel i can use. I guess with a little more time I could get much more done but I did have my current full-time job sucking up much of my time. Its been really fun working on this though. Learned a whole lot about building with python. I actually found a lot of similarities with how express apps would be built in Javascript. 

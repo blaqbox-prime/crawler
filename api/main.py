@@ -2,31 +2,23 @@ from fastapi import FastAPI
 from utils.crawler import BooksCrawler
 from models.Book import Book
 from utils.db import lifespan, fetchBooks
+from api.routers import books
 
 crawler = BooksCrawler()
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan,
+              title="FK Book Crawling API",
+              description="Serves book data crawled from books.toscrape.com, with change history.",
+              version="1.0.0",
+              )
 
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to the Books API!"}
 
 # Books
-@app.get("/books")
-async def get_books(
-    category: str = None, 
-    min_price: float = None, 
-    max_price: float = None,
-    rating: float = None,
-    sort_by: str = None) -> None:
-    # Implementation for fetching books based on filters
-    books = await Book.find_all().to_list()
-    return {"Books": books}
+app.include_router(books.router)
 
-@app.get("/books/{book_id}")
-async def get_book_by_id(book_id: str):
-    # Implementation for fetching a book by its ID
-    pass
 
 @app.get("/changes")
 async def get_changes():

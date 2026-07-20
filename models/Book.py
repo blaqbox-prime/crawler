@@ -10,7 +10,8 @@ class Book(Document):
     title: str
     description: str
     category: Indexed(str)
-    prices: dict[str, float]
+    price_including_tax: float = Field(..., ge=0)
+    price_excluding_tax: float = Field(..., ge=0)
     availability: str
     number_of_reviews: Indexed(int) = Field(..., ge=0)
     cover_image_url: str | None = None
