@@ -1,11 +1,12 @@
 import logging
 from pathlib import Path
 from datetime import datetime
+from utils.settings import get_settings
 
-LOG_DIR = Path(__file__).resolve().parent.parent / "logs"
+LOG_DIR = Path(__file__).resolve().parent.parent / get_settings().logs_dir
 LOG_DIR.mkdir(exist_ok=True)
 
-log_file = LOG_DIR / f"scrape_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+log_file = LOG_DIR / f"{datetime.today().strftime("%Y-%m-%d")}.log"
 
 logger = logging.getLogger("books_crawler")
 logger.setLevel(logging.INFO)

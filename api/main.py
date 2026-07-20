@@ -2,10 +2,12 @@ from fastapi import FastAPI
 from utils.crawler import BooksCrawler
 from models.Book import Book
 from utils.db import lifespan, fetchBooks
-from api.routers import books
+from api.routers import books, auth
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from api.rate_limiter import limiter
+from utils.settings import get_settings
+
 
 app = FastAPI(lifespan=lifespan,title="FK Book Crawling API",description="Serves book data crawled from books.toscrape.com, with change history.",version="1.0.0")
 
@@ -13,12 +15,15 @@ app = FastAPI(lifespan=lifespan,title="FK Book Crawling API",description="Serves
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
+
+app.include_router(books.router)
+app.include_router(auth.router)
+
 @app.get("/")
 async def read_root():
     return {"message": "Welcome to the Books API!"}
 
-# Books
-app.include_router(books.router)
+
 
 
 @app.get("/changes")

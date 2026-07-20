@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     crawl_retry_backoff_seconds: float = Field(default=2.0)
     crawl_request_timeout: float = Field(default=15.0)
     raw_html_dir: str = Field(default="./raw_html")
-    logs_dir: str = Field(default="./logs")
+    logs_dir: str = Field(default="logs")
     
     # API
     api_keys: str = Field(default="dev-key-123")

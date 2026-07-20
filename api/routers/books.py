@@ -2,6 +2,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from models.Book import Book
 from api.rate_limiter import limiter
+from api.auth import get_api_key
 
 
 
@@ -16,6 +17,7 @@ SORT_FIELD_MAP = {
 @router.get("")
 async def get_books(
     request: Request,
+    api_key: APIKey = Depends(get_api_key),
     category: Optional[str] = Query(default=None, description="Filter by exact category name"),
     min_price: Optional[float] = Query(default=None, ge=0),
     max_price: Optional[float] = Query(default=None, ge=0),
