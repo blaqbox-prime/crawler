@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from utils.crawler import BooksCrawler
 from models.Book import Book
-from utils.db import lifespan
+from app.config import lifespan
 from api.routers import books, auth
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -33,7 +33,7 @@ async def get_changes():
 
 
 @app.get("/crawl")
-async def get_crawl(page:int = 1):
+async def crawl(page:int = -1):
     crawler = BooksCrawler()
     crawl_data = await crawler.crawl_books(page_number=page)
     books_to_save = crawl_data.get("books", [])

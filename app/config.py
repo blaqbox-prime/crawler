@@ -19,6 +19,3 @@ async def lifespan(app: FastAPI):
     finally:
         await client.close()
         
-async def fetchBooks():
-    return await Book.find_all().to_list()
-    
