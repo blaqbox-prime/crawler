@@ -1,9 +1,11 @@
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from models.Book import Book
+from api.rate_limiter import limiter
+
+
 
 router = APIRouter(prefix="/books", tags=["books"])
-
 # Sorting Options
 SORT_FIELD_MAP = {
     "rating": "rating",
@@ -13,6 +15,7 @@ SORT_FIELD_MAP = {
 
 @router.get("")
 async def get_books(
+    request: Request,
     category: Optional[str] = Query(default=None, description="Filter by exact category name"),
     min_price: Optional[float] = Query(default=None, ge=0),
     max_price: Optional[float] = Query(default=None, ge=0),
@@ -57,8 +60,8 @@ async def get_books(
 
 
 @router.get("/{book_id}")
-# @limiter.limit(get_settings().rate_limit)
 async def get_book(
+    request: Request,
     book_id: str,
 ):
     """`book_id` is the book's UPC (its natural unique key from the source site)."""

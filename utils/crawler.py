@@ -4,12 +4,13 @@ from models.Book import Book, Metadata
 from datetime import datetime
 from utils.logger import log_scrape_error
 import asyncio
+from utils.settings import get_settings
 
 class BooksCrawler:
 
     def __init__(self):
         self.client = httpx.AsyncClient()
-        self.base_url = "https://books.toscrape.com"
+        self.base_url = get_settings().crawl_base_url
 
     async def crawl_books(self, page_number: int = 1):
         all_books: list[Book] = []
